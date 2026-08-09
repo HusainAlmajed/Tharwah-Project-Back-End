@@ -15,44 +15,30 @@ const create = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    const category = await Category.findById(
-      req.params.categoryId
-    )
-
+    const category = await Category.findById(req.params.categoryId)
+    
     if (!category) {
-      return res.status(404).json({
-        err: "Category not found"
-      })
+      return res.status(404).json({err: "Category not found" })
     }
 
     if (category.owner.toString() !== req.user._id) {
-      return res.status(403).json({
-        message: "You are not authorized to view this category"
-      })
+      return res.status(403).json({message: "You are not authorized to view this category"})
     }
 
     res.status(200).json(category)
-  } catch (err) {
-    res.status(500).json({ err: err.message })
-  }
+  } catch (err) {res.status(500).json({ err: err.message })}
 }
 
 const update = async (req, res) => {
   try {
-    const category = await Category.findById(
-      req.params.categoryId
-    )
+    const category = await Category.findById(req.params.categoryId)
 
     if (!category) {
-      return res.status(404).json({
-        err: "Category not found"
-      })
+      return res.status(404).json({err: "Category not found" })
     }
 
     if (category.owner.toString() !== req.user._id) {
-      return res.status(403).json({
-        message: "You are not authorized to edit this category"
-      })
+      return res.status(403).json({message: "You are not authorized to edit this category"})
     }
 
     category.name = req.body.name
@@ -61,16 +47,24 @@ const update = async (req, res) => {
 
     await category.save()
 
-    res.status(200).json({
-      message: "Category updated successfully"
-    })
+    res.status(200).json({message: "Category updated successfully"})
   } catch (err) {
     res.status(500).json({ err: err.message })
   }
 }
 
+const index = async (req, res) => {
+  try {
+    const categories = await Category.find({owner: req.user._id})
+
+    res.status(200).json(categories)
+  } catch (err) {res.status(500).json({ err: err.message })}
+}
+
+
 module.exports = {
   create,
   show,
-  update
+  update,
+  index,
 }
