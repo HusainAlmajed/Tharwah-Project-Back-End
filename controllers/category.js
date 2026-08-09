@@ -61,10 +61,30 @@ const index = async (req, res) => {
   } catch (err) {res.status(500).json({ err: err.message })}
 }
 
+const deleteCategory = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.categoryId)
+
+    if (!category) {
+      return res.status(404).json({err: "Category not found"})
+    }
+
+    if (category.owner.toString() !== req.user._id) {
+      return res.status(403).json({message: "You are not authorized to delete this category"})
+    }
+
+    await Category.findByIdAndDelete(req.params.categoryId)
+
+    res.status(200).json({message: "Category deleted successfully"})
+  } catch (err) {
+    res.status(500).json({ err: err.message })
+  }
+}
 
 module.exports = {
   create,
   show,
   update,
   index,
+  deleteCategory
 }

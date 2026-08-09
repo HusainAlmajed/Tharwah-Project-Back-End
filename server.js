@@ -37,7 +37,7 @@ app.get('/transactions', verifyToken, transactionCtrl.index)
 app.delete('/transactions/:transactionId', verifyToken, transactionCtrl.deleteTransaction)
 app.put('/categories/:categoryId', verifyToken, categoryCtrl.update)
 app.get('/categories', verifyToken, categoryCtrl.index)
-
+app.delete('/categories/:categoryId', verifyToken, categoryCtrl.deleteCategory)
 
 app.listen(PORT, () => {
   console.log(`The express app is ready on port ${PORT}! 😀`)
