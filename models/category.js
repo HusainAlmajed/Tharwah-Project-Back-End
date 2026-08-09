@@ -7,6 +7,7 @@ const categorySchema = new mongoose.Schema({
     },
     type: {
         type: String,
+        enum: ['Income' , 'Expense'],
         required: true,
     },
     description: {
@@ -15,6 +16,7 @@ const categorySchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
     }
 })
 
