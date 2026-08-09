@@ -4,7 +4,7 @@ const Category = require('./category')
 const transactionSchema = new mongoose.Schema({
     name: {
         type: String,
-        requreid: true,
+        required: true,
     },
     transactionType: {
         type: String,
