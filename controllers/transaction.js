@@ -21,13 +21,13 @@ const show = async (req, res) => {
 
     if (!transaction) {
       return res.status(404).json({
-        err: "Transaction not found.",
+        err: "Transaction not found"
       })
     }
-    
+
     if (transaction.owner.toString() !== req.user._id) {
       return res.status(403).json({
-        message: "You are not authorized to view this transaction",
+        message: "You are not authorized to view this transaction"
       })
     }
 

@@ -13,7 +13,7 @@ const categorySchema = new mongoose.Schema({
         type: String,
     },
     owner: {
-        type: mongoose.Schema.types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }
 })
