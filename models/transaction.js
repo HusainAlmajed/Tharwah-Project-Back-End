@@ -22,7 +22,7 @@ const transactionSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    Category: {
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
