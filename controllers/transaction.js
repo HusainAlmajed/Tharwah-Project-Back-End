@@ -60,7 +60,7 @@ const update = async (req, res) => {
     transaction.amount = req.body.amount
     transaction.date = req.body.date
     transaction.description = req.body.description
-    transaction.Category = req.body.Category
+    transaction.category = req.body.category
     await transaction.save()
 
     res.status(200).json({
