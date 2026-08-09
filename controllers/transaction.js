@@ -105,5 +105,5 @@ module.exports = {
   show,
   update,
   index,
-  deleteTransaction
+  deleteTransaction,
 }

@@ -36,6 +36,7 @@ app.put('/transactions/:transactionId', verifyToken, transactionCtrl.update)
 app.get('/transactions', verifyToken, transactionCtrl.index)
 app.delete('/transactions/:transactionId', verifyToken, transactionCtrl.deleteTransaction)
 app.put('/categories/:categoryId', verifyToken, categoryCtrl.update)
+
 app.listen(PORT, () => {
   console.log(`The express app is ready on port ${PORT}! 😀`)
 })
