@@ -81,11 +81,29 @@ const index = async (req, res) => {
   }
 }
 
+const deleteTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(
+      req.params.transactionId
+    )
+    if (!transaction) {
+      return res.status(404).json({err: "Transaction not found"})
+    }
+    if (transaction.owner.toString() !== req.user._id) {
+      return res.status(403).json({message: "You are not authorized to delete this transaction"})
+    }
+    await Transaction.findByIdAndDelete(req.params.transactionId)
 
+    res.status(200).json({message: "Transaction deleted successfully"})
+  } catch (err) {
+    res.status(500).json({ err: err.message })
+  }
+}
 
 module.exports = {
   create,
   show,
   update,
   index,
+  deleteTransaction
 }
