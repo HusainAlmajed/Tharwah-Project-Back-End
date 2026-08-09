@@ -18,7 +18,7 @@ const verifyToken = require('./middleware/verify-token')
 mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection.on('connected', () => {
-  console.log(`Connected to MongoDB ${mongoose.connection.name}. 🥭`)
+  console.log(`Connected to MongoDB ${mongoose.connection.name}. :mango:`)
 })
 
 app.use(cors())
@@ -40,5 +40,5 @@ app.get('/categories', verifyToken, categoryCtrl.index)
 app.delete('/categories/:categoryId', verifyToken, categoryCtrl.deleteCategory)
 
 app.listen(PORT, () => {
-  console.log(`The express app is ready on port ${PORT}! 😀`)
+  console.log(`The express app is ready on port ${PORT}! :grinning:`)
 })
