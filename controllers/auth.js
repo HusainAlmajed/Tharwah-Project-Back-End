@@ -33,12 +33,21 @@ const signUp = async (req, res) => {
             return res.status(409).json({ err: 'Username already taken.' })
         }
 
+        const emailInDatabase = await User.findOne({
+            email: req.body.email
+        })
+
+        if (emailInDatabase) {
+            return res.status(409).json({ err: 'Email already taken.' })
+        }
+        
         // creates user
         const hashedPassword = bcrypt.hashSync(req.body.password, 10)
 
         const userData = {
             username: req.body.username,
             password: hashedPassword,
+            email: req.body.email,
         }
 
         const user = await User.create(userData)
