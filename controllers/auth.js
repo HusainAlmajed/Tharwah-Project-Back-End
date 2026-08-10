@@ -67,10 +67,16 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     try {
         // check if user in database already
-        const userInDatabase = await User.findOne({
-            username: req.body.username
-        })
-
+        let userInDatabase
+        
+        if (req.body.email) {
+            userInDatabase = await User.findOne({email: req.body.email})
+        } else {
+            userInDatabase = await User.findOne({
+                username: req.body.username
+            })
+        }
+        
         if (!userInDatabase) {
             return res.status(404).json({ err: 'User does not exist.' })
         }
