@@ -8,3 +8,14 @@ const emailSender = nodemailer.createTransport({
     }
 })
 
+const sendVerificationCode = async (email, code) => {
+    const emailMessage = {
+        from: process.env.Email,
+        to: email,
+        subject: "Tharwah verification code",
+        text: `Your verification code is ${code}`
+    }
+    await emailSender.sendMail(emailMessage)
+}
+
+module.exports = sendVerificationCode
