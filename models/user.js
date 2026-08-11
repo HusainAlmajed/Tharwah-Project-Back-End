@@ -12,6 +12,23 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationCode: {
+        type: String,
+    },
+    verificationCodeExpire: {
+        type: Date
+    }, 
+    verificationAttempts: {
+        type: Number,
+        default:0
+    },
+    verificationLockTime: {
+        type: Date
     }
 }, {timestamps: true})
 
