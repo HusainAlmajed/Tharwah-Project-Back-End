@@ -1,8 +1,18 @@
 const Transaction = require("../models/transaction.js")
+const Category = require("../models/category.js")
 
 const create = async (req, res) => {
   try {
     req.body.owner = req.user._id
+
+    const category = await Category.findOne({
+      _id: req.body.category,
+      owner: req.user._id
+    })
+
+    if (!category) {
+      return res.status(404).json({err: "Category not found"})
+    }
 
     const transaction = await Transaction.create(req.body)
     transaction._doc.owner = req.user
@@ -20,15 +30,11 @@ const show = async (req, res) => {
     ).populate('category')
 
     if (!transaction) {
-      return res.status(404).json({
-        err: "Transaction not found"
-      })
+      return res.status(404).json({err: "Transaction not found" })
     }
 
     if (transaction.owner.toString() !== req.user._id) {
-      return res.status(403).json({
-        message: "You are not authorized to view this transaction"
-      })
+      return res.status(403).json({message: "You are not authorized to view this transaction"})
     }
 
     res.status(200).json(transaction)
@@ -39,20 +45,23 @@ const show = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const transaction = await Transaction.findById(
-      req.params.transactionId
-    )
+    const transaction = await Transaction.findById(req.params.transactionId)
 
     if (!transaction) {
-      return res.status(404).json({
-        err: "Transaction not found"
-      })
+      return res.status(404).json({err: "Transaction not found" })
     }
 
     if (transaction.owner.toString() !== req.user._id) {
-      return res.status(403).json({
-        message: "You are not authorized to edit this transaction"
-      })
+      return res.status(403).json({message: "You are not authorized to edit this transaction"})
+    }
+
+    const category = await Category.findOne({
+      _id: req.body.category,
+      owner: req.user._id
+    })
+
+    if (!category) {
+      return res.status(404).json({err: "Category not found"})
     }
 
     transaction.name = req.body.name
@@ -63,9 +72,7 @@ const update = async (req, res) => {
     transaction.category = req.body.category
     await transaction.save()
 
-    res.status(200).json({
-      message: "Transaction updated successfully"
-    })
+    res.status(200).json({message: "Transaction updated successfully"})
   } catch (err) {
     res.status(500).json({ err: err.message })
   }
@@ -83,9 +90,8 @@ const index = async (req, res) => {
 
 const deleteTransaction = async (req, res) => {
   try {
-    const transaction = await Transaction.findById(
-      req.params.transactionId
-    )
+    const transaction = await Transaction.findById(req.params.transactionId)
+    
     if (!transaction) {
       return res.status(404).json({err: "Transaction not found"})
     }

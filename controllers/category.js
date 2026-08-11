@@ -1,4 +1,5 @@
 const Category = require("../models/category.js")
+const Transaction = require("../models/transaction.js")
 
 const create = async (req, res) => {
   try {
@@ -71,6 +72,12 @@ const deleteCategory = async (req, res) => {
 
     if (category.owner.toString() !== req.user._id) {
       return res.status(403).json({message: "You are not authorized to delete this category"})
+    }
+
+    const categoryInUse = await Transaction.findOne({category: req.params.categoryId})
+
+    if (categoryInUse) {
+      return res.status(409).json({ message: "This category is being used by a transaction" })
     }
 
     await Category.findByIdAndDelete(req.params.categoryId)

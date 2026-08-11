@@ -9,7 +9,6 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const PORT = process.env.PORT ? process.env.PORT : "3000"
 
 const authCtrl = require('./controllers/auth')
-const usersCtrl = require('./controllers/users')
 const categoryCtrl = require('./controllers/category')
 const transactionCtrl = require('./controllers/transaction')
 
@@ -31,7 +30,6 @@ app.post('/categories', verifyToken, categoryCtrl.create)
 app.get('/categories/:categoryId', verifyToken, categoryCtrl.show)
 app.post('/transactions', verifyToken, transactionCtrl.create)
 app.get('/transactions/:transactionId', verifyToken, transactionCtrl.show)
-app.get('/users', verifyToken, usersCtrl.index)
 app.put('/transactions/:transactionId', verifyToken, transactionCtrl.update)
 app.get('/transactions', verifyToken, transactionCtrl.index)
 app.delete('/transactions/:transactionId', verifyToken, transactionCtrl.deleteTransaction)
