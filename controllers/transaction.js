@@ -17,7 +17,7 @@ const show = async (req, res) => {
   try {
     const transaction = await Transaction.findById(
       req.params.transactionId
-    )
+    ).populate('category')
 
     if (!transaction) {
       return res.status(404).json({
