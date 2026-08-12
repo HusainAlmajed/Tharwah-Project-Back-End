@@ -80,7 +80,7 @@ const update = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const transactions = await Transaction.find({owner: req.user._id})
+    const transactions = await Transaction.find({owner: req.user._id}).populate('category')
 
     res.status(200).json(transactions)
   } catch (err) {
