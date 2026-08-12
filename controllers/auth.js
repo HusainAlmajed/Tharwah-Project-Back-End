@@ -5,7 +5,6 @@ const User = require('../models/user')
 
 const signUp = async (req, res) => {
     try {
-        // check if user in database already
         const userInDatabase = await User.findOne({
             username: req.body.username
         })
@@ -26,7 +25,6 @@ const signUp = async (req, res) => {
             return res.status(400).json({ err: 'Password must be more than 6 characters. '})
         }
 
-        // creates user
         const hashedPassword = bcrypt.hashSync(req.body.password, 10)
 
         const userData = {
@@ -37,10 +35,8 @@ const signUp = async (req, res) => {
 
         const user = await User.create(userData)
 
-        // create the payload
         const payload = { username: user.username, _id: user._id }
 
-        // create the token with payload + secret
         const token = jwt.sign({payload}, process.env.JWT_SECRET)
 
         res.status(201).json({ token })
@@ -51,7 +47,6 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
     try {
-        // check if user in database already
         let userInDatabase
         
         if (req.body.email) {
@@ -66,7 +61,6 @@ const signIn = async (req, res) => {
             return res.status(404).json({ err: 'User does not exist.' })
         }
 
-        // check if the user's password is correct
         const validPassword = bcrypt.compareSync(req.body.password, userInDatabase.password)
 
         if (!validPassword) {
